@@ -1,0 +1,109 @@
+This code expects that both filaments are retracted by 80mm at the start of printing.
+
+VERY IMPORTANT!!!  The Nozzle Switch Retraction Distance is set to 16mm as standard in Cura.
+
+This MUST be set to 0mm ON BOTH EXTRUDERS.  Otherwise you will get very bad stringing at each colour change!
+
+
+Machine Start Code
+
+G21                      ; Metric values
+G28                      ; Home all
+G90                      ; Absolute positioning ON
+M107                     ; Fan OFF
+G1 Z15 F2400             ; Raise nozzle 15mm
+T0                       ; Extruder 1 ON
+M211 X1 S0               ; Disable soft endstops
+G1 X320 F6000            ; Move to bucket
+G92 E0                   ; Zero extruder
+G1 E80 F500              ; Load filament
+G92 E0                   ; Zero extruder
+G1 E80 F100              ; Purge
+G92 E0                   ; Zero extruder
+G1 E-6 F3000             ; Short retract
+G92 E0                   ; Zero extruder
+G1 X5 Y10 Z0.2 F3000     ; Start prime
+G1 X160 E15  F600        ; Prime line
+G1 X180 F5000            ; Wipe
+G92 E0                   ; Zero extruder
+
+
+Machine End Code
+
+M104 S0                  ; Hotend OFF
+M140 S0                  ; Bed OFF
+G92 E0                   ; Zero extruder
+G1 E-6 F3000             ; Short retract
+G92 E0                   ; Zero extruder
+G1 E-74 F2000            ; Withdraw filament
+G92 E0                   ; Zero extruder
+G1 X0 Y270 F3000         ; Present bed
+M84                      ; Stepper motors OFF
+
+
+Extruder 1 End Code   (There is no start code!)
+
+M211 X1 S0      ; Disable endstops
+G91             ; Relative positioning ON
+G1 Z1 F1000     ; Raise nozzle by 1mm
+G90             ; Absolute positioning ON
+G92 E0          ; Zero extruder
+G1 E-6 F3000    ; Short retract
+G92 E0          ; Zero extruder
+G1 E-74 F2000   ; Withdraw filament
+G1 X320 F6000   ; Go to Purge Bucket
+G92 E0          ; Zero extruder
+
+T1              ; Extruder 2 ON
+G92 E0          ; Zero extruder
+G0 E80 F1800    ; Reload filament
+G92 E0          ; Zero extruder
+G0 E80 F180     ; Purge
+G92 E0          ; Zero extruder
+G1 E-6 F3000    ; Short retract
+G92 E0          ; Zero extruder
+M400            ; Wait for finish
+G1 X300 F6000   ; Wipe
+G1 X320 F6000   ; Wipe
+
+
+G92 E0          ; Zero extruder
+G91             ; Relative positioning ON
+G1 Z-1 F1000    ; Lower nozzle by 1mm
+G90             ; Absolute positioning ON
+M400            ; Wait for finish
+
+
+
+Extruder 2 End Code   (There is no start code!)
+
+M211 X1 S0      ; Disable endstops
+G91             ; Relative positioning ON
+G1 Z1 F1000     ; Raise nozzle by 1mm
+G90             ; Absolute positioning ON
+G92 E0          ; Zero extruder
+G1 E-6 F3000    ; Short retract
+G92 E0          ; Zero extruder
+G1 E-74 F2000   ; Withdraw filament
+G1 X320 F6000   ; Go to Purge Bucket
+G92 E0          ; Zero extruder
+
+T0              ; Extruder 1 ON
+G92 E0          ; Zero extruder
+G0 E80 F1800    ; Reload filament
+G92 E0          ; Zero extruder
+G0 E80 F180     ; Purge
+G92 E0          ; Zero extruder
+G1 E-6 F3000    ; Short retract
+G92 E0          ; Zero extruder
+M400            ; Wait for finish
+G1 X300 F6000   ; Wipe
+G1 X320 F6000   ; Wipe
+
+
+G92 E0          ; Zero extruder
+G91             ; Relative positioning ON
+G1 Z-1 F1000    ; Lower nozzle by 1mm
+G90             ; Absolute positioning ON
+M400            ; Wait for finish
+
